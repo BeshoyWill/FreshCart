@@ -1,0 +1,49 @@
+@if (data) {
+<div class="container mx-auto my-3">
+  <h1 class="text-xl font-semibold my-3">Shop Cart</h1>
+  <p class="text-main mb-3">Total Price: {{ data.totalCartPrice }}</p>
+  <button (click)="clearCart()" class="btn btn-main mb-3">
+    Clear All Products
+  </button>
+
+  @for(p of data.products; track $index) {
+  <div class="row items-center bg-gray-300 border-b border-white">
+    <div class="md:w-1/12 p-3">
+      <img [src]="p.product.imageCover" alt="product-image" class="w-full" />
+    </div>
+
+    <div class="md:w-10/12 p-3">
+      <h2 class="text-lg font-medium mt-2">{{ p.product.title }}</h2>
+      <p class="text-main">Price : {{ p.price }}</p>
+      <span
+        (click)="deleteProductFromCart(p.product._id)"
+        class="cursor-pointer mb-2"
+        >Remove <i class="fa fa-trash text-main"></i>
+      </span>
+    </div>
+
+    <div class="md:w-1/12 p-3">
+      <button
+        (click)="updateProductCartCount(p.product._id, (p.count = p.count + 1))"
+        class="text-white bg-green-400 rounded p-1"
+      >
+        +
+      </button>
+      <span> {{ p.count }} </span>
+      <button
+        (click)="updateProductCartCount(p.product._id, (p.count = p.count - 1))"
+        class="text-white bg-red-400 rounded p-1"
+      >
+        -
+      </button>
+    </div>
+  </div>
+  }
+</div>
+
+} @else {
+<div class="container mx-auto my-3">
+  <h1 class="text-xl font-semibold my-3">Shop Cart</h1>
+  <p class="text-main mb-3">There are No Products In Your Cart</p>
+</div>
+}

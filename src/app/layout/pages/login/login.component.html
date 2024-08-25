@@ -1,0 +1,65 @@
+<div class="w-3/4 mx-auto my-5">
+  <h1 class="text-3xl font-bold my-3 text-center">Register Now</h1>
+
+  <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
+    @if(errMsg) {
+    <div class="alert-danger rounded m-0 p-0">
+      <p class="m-0 p-0">{{ errMsg }}</p>
+    </div>
+    }
+
+    <div class="my-3">
+      <label>email: </label>
+      <input formControlName="email" type="text" class="w-full p-2 rounded" />
+
+      @if (loginForm.get('email')?.errors && loginForm.get('email')?.touched) {
+      <div class="alert-danger rounded p-0 m-0">
+        @if (loginForm.get('email')?.errors?.['required']) {
+        <p class="p-1 m-0">email is required</p>
+        } @if (loginForm.get('email')?.errors?.['email']) {
+        <p class="p-1 m-0">enter valid email</p>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="my-3">
+      <label>password: </label>
+      <input
+        formControlName="password"
+        type="text"
+        class="w-full p-2 rounded"
+      />
+
+      @if (loginForm.get('password')?.errors &&
+      loginForm.get('password')?.touched) {
+      <div class="alert-danger rounded p-0 m-0">
+        @if (loginForm.get('password')?.errors?.['required']) {
+        <p class="p-1 m-0">password is required</p>
+        } @if (loginForm.get('password')?.errors?.['pattern']) {
+        <p class="p-1 m-0">enter valid password</p>
+        }
+      </div>
+      }
+    </div>
+
+    <div class="flex justify-end items-center">
+      <a
+        class="btn bg-main text-white mx-3 block cursor-pointer"
+        routerLink="/forgetpassword"
+        >Forget Password</a
+      >
+
+      <button
+        [disabled]="loginForm.invalid"
+        class="btn bg-main text-white ms-3 block cursor-pointer"
+      >
+        @if(isLoading) {
+        <span><i class="fa fa-spin fa-spinner"></i></span>
+        } @else {
+        <span>Login</span>
+        }
+      </button>
+    </div>
+  </form>
+</div>

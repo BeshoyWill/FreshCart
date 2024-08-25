@@ -1,0 +1,57 @@
+<app-homeslider></app-homeslider>
+
+<h2 class="my-3 text-xl font-medium">Show Popular Categories</h2>
+<app-categoryslider></app-categoryslider>
+
+@if (isLoading) {
+<div class="h-screen row justify-center items-center">
+  <div class="loader"></div>
+</div>
+} @else {
+<div class="container mx-auto">
+  <div class="w-3/4 mx-auto my-5">
+    <input
+      [(ngModel)]="userWord"
+      type="text"
+      class="rounded w-full p-1"
+      placeholder="search by title ......"
+    />
+  </div>
+
+  <div class="row my-12">
+    @for (product of productList | search : userWord; track $index) {
+    <div class="md:w-2/12 p-3 cursor-pointer">
+      <div class="product">
+        <div [routerLink]="['/productdetails', product._id]">
+          <img [src]="product.imageCover" class="w-full" alt="image" />
+          <span class="text-main font-sm">{{
+            product.category.name | uppercase
+          }}</span>
+          <h3 class="my-3 text-xl font-medium">
+            {{ product.title.split(" ").splice(0, 2).join(" ") | onsale }}
+          </h3>
+
+          <div class="row justify-between items-center">
+            <span>{{ product.price | currency : "EUR" }}</span>
+            <span>
+              {{ product.ratingsAverage }}
+              <i class="fa fa-star rating-color"></i
+            ></span>
+          </div>
+        </div>
+
+        <div class="addToCart mx-auto my-3">
+          <button
+            (click)="addProductToCart(product._id)"
+            class="btn btn-product w-full"
+          >
+            Add To Cart
+          </button>
+        </div>
+        <p class="my-2">{{ date | date : "fullDate" }}</p>
+      </div>
+    </div>
+    }
+  </div>
+</div>
+}
