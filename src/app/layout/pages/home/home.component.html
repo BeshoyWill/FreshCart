@@ -10,12 +10,24 @@
 } @else {
 <div class="container mx-auto">
   <div class="w-3/4 mx-auto my-5">
-    <input
-      [(ngModel)]="userWord"
-      type="text"
-      class="rounded w-full p-1"
-      placeholder="search by title ......"
-    />
+    <div class="relative">
+      <input
+        [(ngModel)]="userWord"
+        type="text"
+        class="rounded w-full p-2 pe-8 pl-10 border border-gray-300 focus:border-green-500 focus:ring-green-500 transition duration-300 ease-in-out"
+        placeholder="search by title ......"
+        (input)="onInput()"
+      />
+      @if (userWord) {
+      <button
+        type="button"
+        class="absolute top-1/2 right-3 transform -translate-y-1/2 text-green-600 hover:text-red-600"
+        (click)="clearInput()"
+      >
+        <i class="fas fa-times"></i>
+      </button>
+      }
+    </div>
   </div>
 
   <div class="row my-12">

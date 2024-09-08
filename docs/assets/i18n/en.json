@@ -1,0 +1,14 @@
+{
+  "navbar": {
+    "Home": "Home",
+    "Products": "Products",
+    "Brands": "Brands",
+    "Categories": "Categories",
+    "Cart": "Cart",
+    "Login": "Login",
+    "Register": "Register",
+    "Logout": "Logout",
+    "AR": "AR",
+    "EN": "EN"
+  }
+}

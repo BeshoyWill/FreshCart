@@ -43,7 +43,7 @@
             routerLink="home"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Home</a
+            >{{ "navbar.Home" | translate }}</a
           >
         </li>
         <li>
@@ -51,7 +51,7 @@
             routerLink="products"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Products</a
+            >{{ "navbar.Products" | translate }}</a
           >
         </li>
         <li>
@@ -59,7 +59,7 @@
             routerLink="brands"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Brands</a
+            >{{ "navbar.Brands" | translate }}</a
           >
         </li>
         <li>
@@ -67,7 +67,7 @@
             routerLink="categories"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Categories</a
+            >{{ "navbar.Categories" | translate }}</a
           >
         </li>
         <li>
@@ -75,7 +75,7 @@
             routerLink="cart"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Cart</a
+            >{{ "navbar.Cart" | translate }}</a
           >
         </li>
         }
@@ -97,6 +97,35 @@
         <li>
           <a href=""><i class="fa-brands fa-twitter"></i></a>
         </li>
+
+        <li>
+          <button
+            (click)="changeLang('en')"
+            class="p-2 flex flex-row items-center border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none"
+          >
+            <span class="text-md">{{ "navbar.EN" | translate }}</span>
+            <span class="ml-1">
+              <img
+                src="https://img.icons8.com/?size=512&id=t3NE3BsOAQwq&format=png"
+                class="w-5 h-5"
+            /></span>
+          </button>
+        </li>
+
+        <li>
+          <button
+            (click)="changeLang('ar')"
+            class="p-2 flex flex-row items-center border border-gray-300 text-sm font-medium text-gray-700 hover:bg-gray-100 focus:bg-gray-200 focus:outline-none"
+          >
+            <span class="text-md">{{ "navbar.AR" | translate }}</span>
+            <span class="ml-1">
+              <img
+                src="https://img.icons8.com/?size=100&id=URAZ6JFhZFg8&format=png&color=000000"
+                class="w-5 h-5"
+            /></span>
+          </button>
+        </li>
+
         @if (isLogin) {
         <li>
           <a
@@ -105,13 +134,28 @@
             >Logout</a
           >
         </li>
+        <li class="relative">
+          <a routerLink="cart">
+            <!-- @if(cartItemsQuantity) {
+            <span class="cart-count"> {{ cartItemsQuantity }} </span>
+            } @else {
+            <span class="cart-count"> 0 </span>
+            } -->
+            @if (cartItemNumber) {
+            <span class="cart-count"> {{ cartItemNumber }} </span>
+            }@else {
+            <span class="cart-count"> {{ cartItemNumber }} </span>
+            }
+            <i class="fa fa-cart-shopping text-main text-2xl"></i>
+          </a>
+        </li>
         } @else {
         <li>
           <a
             routerLink="login"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Login</a
+            >{{ "navbar.Login" | translate }}</a
           >
         </li>
         <li>
@@ -119,16 +163,10 @@
             routerLink="register"
             routerLinkActive="bg-main text-white"
             class="block py-2 px-1 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-            >Register</a
+            >{{ "navbar.Register" | translate }}</a
           >
         </li>
         }
-        <li class="relative">
-          <a routerLink="cart">
-            <span class="cart-count">2</span>
-            <i class="fa fa-cart-shopping text-main text-2xl"></i>
-          </a>
-        </li>
       </ul>
     </div>
   </div>

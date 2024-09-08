@@ -6,6 +6,12 @@ export interface code {
   resetCode: string;
 }
 
+export interface address {
+  details: string;
+  phone: string;
+  city: string;
+}
+
 export interface newPassword extends email {
   newPassword: string;
 }

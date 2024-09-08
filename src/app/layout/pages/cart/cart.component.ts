@@ -1,17 +1,19 @@
 import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { CartService } from '../../../shared/services/cart/cart.service';
-import { Data, Product } from '../../../shared/interfaces/loggedcart';
+import { Data } from '../../../shared/interfaces/loggedcart';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
   standalone: true,
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',
 })
 export class CartComponent implements OnInit {
   data!: Data;
+  errMsg!: string;
 
   constructor(
     @Inject(PLATFORM_ID) private id: object,
@@ -32,6 +34,7 @@ export class CartComponent implements OnInit {
         console.log(res.data);
       },
       error: (err) => {
+        this.errMsg = err;
         console.log(err);
       },
     });
