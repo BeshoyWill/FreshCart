@@ -2,59 +2,140 @@
   <h1 class="text-3xl font-bold my-3 text-center">Register Now</h1>
 
   <form [formGroup]="loginForm" (ngSubmit)="submitLogin()">
-    @if(errMsg) {
-    <div class="alert-danger rounded m-0 p-0">
-      <p class="m-0 p-0">{{ errMsg }}</p>
+    <!-- General Error Message -->
+    @if (errMsg) {
+    <div class="bg-red-100 text-red-700 p-2 rounded mb-4">
+      <p class="m-0">{{ errMsg }}</p>
     </div>
     }
 
-    <div class="my-3">
-      <label>email: </label>
-      <input formControlName="email" type="text" class="w-full p-2 rounded" />
+    <!-- Email Input Field -->
+    <div class="my-3 relative">
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !loginForm.get('email')?.errors &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty),
+          'text-red-500':
+            loginForm.get('email')?.errors &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+        }"
+        for="email"
+        class="block mb-2 text-sm font-medium"
+      >
+        Email:
+      </label>
 
-      @if (loginForm.get('email')?.errors && loginForm.get('email')?.touched) {
-      <div class="alert-danger rounded p-0 m-0">
-        @if (loginForm.get('email')?.errors?.['required']) {
-        <p class="p-1 m-0">email is required</p>
-        } @if (loginForm.get('email')?.errors?.['email']) {
-        <p class="p-1 m-0">enter valid email</p>
-        }
-      </div>
-      }
-    </div>
-
-    <div class="my-3">
-      <label>password: </label>
       <input
-        formControlName="password"
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !loginForm.get('email')?.errors &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty),
+          'border-red-500 focus:border-red-500':
+            loginForm.get('email')?.errors &&
+            (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)
+        }"
+        id="email"
         type="text"
+        formControlName="email"
         class="w-full p-2 rounded"
       />
 
-      @if (loginForm.get('password')?.errors &&
-      loginForm.get('password')?.touched) {
-      <div class="alert-danger rounded p-0 m-0">
-        @if (loginForm.get('password')?.errors?.['required']) {
-        <p class="p-1 m-0">password is required</p>
-        } @if (loginForm.get('password')?.errors?.['pattern']) {
-        <p class="p-1 m-0">enter valid password</p>
+      <!-- Error Message for Email -->
+      @if (loginForm.get('email')?.errors && (loginForm.get('email')?.touched ||
+      loginForm.get('email')?.dirty)) {
+      <div class="bg-red-100 text-red-700 p-2 rounded block w-full">
+        @if (loginForm.get('email')?.errors?.['required']) {
+        <p class="p-1 m-0">Email is required</p>
+        } @if (loginForm.get('email')?.errors?.['email']) {
+        <p class="p-1 m-0">Enter a valid email</p>
         }
       </div>
       }
     </div>
 
-    <div class="flex justify-end items-center">
+    <!-- Password Input Field -->
+    <div class="my-3 relative">
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !loginForm.get('password')?.errors &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty),
+          'text-red-500':
+            loginForm.get('password')?.errors &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+        }"
+        for="password"
+        class="block mb-2 text-sm font-medium"
+      >
+        Password:
+      </label>
+
+      <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !loginForm.get('password')?.errors &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty),
+          'border-red-500 focus:border-red-500':
+            loginForm.get('password')?.errors &&
+            (loginForm.get('password')?.touched ||
+              loginForm.get('password')?.dirty)
+        }"
+        id="password"
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        class="relative w-full p-2 rounded"
+        formControlName="password"
+      />
+
+      <!-- Eye Icon for Toggling Visibility -->
+      <button
+        type="button"
+        class="absolute bottom-3 right-0 flex items-center pr-3 text-red-500 hover:text-red-700"
+        (click)="togglePasswordVisibility()"
+      >
+        @if (!loginForm.get('password')?.errors) {
+        <i
+          class="fa"
+          [ngClass]="
+            isPasswordVisible
+              ? 'fa-eye text-green-500 hover:text-green-700'
+              : 'fa-eye-slash'
+          "
+          aria-hidden="true"
+        ></i>
+        }
+      </button>
+
+      <!-- Error Message -->
+      @if (loginForm.get('password')?.errors &&
+      loginForm.get('password')?.touched) {
+      <div class="bg-red-100 text-red-700 p-2 rounded relative right-0 w-full">
+        @if (loginForm.get('password')?.errors?.['required']) {
+        <p class="p-1 m-0">Password is required</p>
+        } @if (loginForm.get('password')?.errors?.['pattern']) {
+        <p class="p-1 m-0">Enter a valid password</p>
+        }
+      </div>
+      }
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end items-center mt-4">
       <a
         class="btn bg-main text-white mx-3 block cursor-pointer"
         routerLink="/forgetpassword"
-        >Forget Password</a
       >
+        Forget Password
+      </a>
 
       <button
         [disabled]="loginForm.invalid"
         class="btn bg-main text-white ms-3 block cursor-pointer"
       >
-        @if(isLoading) {
+        @if (isLoading) {
         <span><i class="fa fa-spin fa-spinner"></i></span>
         } @else {
         <span>Login</span>

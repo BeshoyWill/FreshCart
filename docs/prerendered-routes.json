@@ -1,5 +1,6 @@
 {
   "routes": [
+    "/allorders",
     "/brands",
     "/cart",
     "/categories",

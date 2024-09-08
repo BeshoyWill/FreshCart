@@ -2,10 +2,17 @@
 <div class="container mx-auto my-3">
   <h1 class="text-xl font-semibold my-3">Shop Cart</h1>
   <p class="text-main mb-3">Total Price: {{ data.totalCartPrice }}</p>
+
+  <!-- @if (data.totalCartPrice > 0) {
   <button (click)="clearCart()" class="btn btn-main mb-3">
     Clear All Products
   </button>
-
+  }@else {
+  <div class="container mx-auto my-3">
+    <p class="text-sm mb-3">There are No Products In Your Cart</p>
+    <p class="alert alert-danger p-3">{{ errMsg }}</p>
+  </div>
+   } -->
   @for(p of data.products; track $index) {
   <div class="row items-center bg-gray-300 border-b border-white">
     <div class="md:w-1/12 p-3">
@@ -39,11 +46,16 @@
     </div>
   </div>
   }
+  <button
+    class="btn-main block ms-auto my-5"
+    [routerLink]="['/shippingaddress', data ._id]"
+  >
+    Order
+  </button>
 </div>
 
 } @else {
-<div class="container mx-auto my-3">
-  <h1 class="text-xl font-semibold my-3">Shop Cart</h1>
-  <p class="text-main mb-3">There are No Products In Your Cart</p>
+<div class="alert-danger m-0 p-0 my-5">
+  <p>{{ errMsg }}</p>
 </div>
 }

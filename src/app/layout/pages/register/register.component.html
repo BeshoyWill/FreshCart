@@ -2,101 +2,300 @@
   <h1 class="text-3xl font-bold my-3 text-center">Register Now</h1>
 
   <form [formGroup]="registerForm" (ngSubmit)="submitRegister()">
+    <!-- Error Message -->
     @if(errMsg) {
-    <div class="alert-danger m-0 p-0">
-      <p class="m-0 p-0">{{ errMsg }}</p>
+    <div class="bg-red-100 text-red-700 p-2 rounded my-3">
+      <p class="m-0">{{ errMsg }}</p>
     </div>
     }
+
+    <!-- Name Field -->
     <div class="my-3">
-      <label for="">name: </label>
-      <input formControlName="name" type="text" class="w-full p-2 rounded" />
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !registerForm.get('name')?.errors &&
+            (registerForm.get('name')?.touched ||
+              registerForm.get('name')?.dirty),
+          'text-red-500':
+            registerForm.get('name')?.errors &&
+            (registerForm.get('name')?.touched ||
+              registerForm.get('name')?.dirty)
+        }"
+        for="name"
+        class="block mb-2 text-sm font-medium"
+      >
+        Name:
+      </label>
+
+      <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !registerForm.get('name')?.errors &&
+            (registerForm.get('name')?.touched ||
+              registerForm.get('name')?.dirty),
+          'border-red-500 focus:border-red-500':
+            registerForm.get('name')?.errors &&
+            (registerForm.get('name')?.touched ||
+              registerForm.get('name')?.dirty)
+        }"
+        id="name"
+        type="text"
+        class="w-full p-2 rounded"
+        formControlName="name"
+      />
 
       @if (registerForm.get('name')?.errors &&
       registerForm.get('name')?.touched) {
-      <div class="alert-danger p-0 m-0">
+      <div class="bg-red-100 text-red-700 p-2 rounded">
         @if (registerForm.get('name')?.errors?.['required']) {
-        <p class="p-1 m-0">name is required</p>
+        <p class="p-1 m-0">Name is required</p>
         } @if (registerForm.get('name')?.errors?.['minlength']) {
-        <p class="p-1 m-0">name is min length is : 3</p>
+        <p class="p-1 m-0">Name minimum length is: 3</p>
         } @if (registerForm.get('name')?.errors?.['maxlength']) {
-        <p class="p-1 m-0">name max length is : 8</p>
+        <p class="p-1 m-0">Name maximum length is: 8</p>
         }
       </div>
       }
     </div>
 
+    <!-- Email Field -->
     <div class="my-3">
-      <label>email: </label>
-      <input formControlName="email" type="text" class="w-full p-2 rounded" />
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !registerForm.get('email')?.errors &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty),
+          'text-red-500':
+            registerForm.get('email')?.errors &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty)
+        }"
+        for="email"
+        class="block mb-2 text-sm font-medium"
+      >
+        Email:
+      </label>
+
+      <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !registerForm.get('email')?.errors &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty),
+          'border-red-500 focus:border-red-500':
+            registerForm.get('email')?.errors &&
+            (registerForm.get('email')?.touched ||
+              registerForm.get('email')?.dirty)
+        }"
+        id="email"
+        type="text"
+        class="w-full p-2 rounded"
+        formControlName="email"
+      />
 
       @if (registerForm.get('email')?.errors &&
       registerForm.get('email')?.touched) {
-      <div class="alert-danger p-0 m-0">
+      <div class="bg-red-100 text-red-700 p-2 rounded">
         @if (registerForm.get('email')?.errors?.['required']) {
-        <p class="p-1 m-0">email is required</p>
+        <p class="p-1 m-0">Email is required</p>
         } @if (registerForm.get('email')?.errors?.['email']) {
-        <p class="p-1 m-0">enter valid email</p>
+        <p class="p-1 m-0">Enter a valid email</p>
         }
       </div>
       }
     </div>
 
-    <div class="my-3">
-      <label>password: </label>
+    <!-- Password Input Field -->
+    <div class="my-3 relative">
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !registerForm.get('password')?.errors &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty),
+          'text-red-500':
+            registerForm.get('password')?.errors &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty)
+        }"
+        for="password"
+        class="block mb-2 text-sm font-medium"
+      >
+        Password:
+      </label>
+
       <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !registerForm.get('password')?.errors &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty),
+          'border-red-500 focus:border-red-500':
+            registerForm.get('password')?.errors &&
+            (registerForm.get('password')?.touched ||
+              registerForm.get('password')?.dirty)
+        }"
+        id="password"
+        [type]="isPasswordVisible ? 'text' : 'password'"
+        class="relative w-full p-2 rounded"
         formControlName="password"
-        type="text"
-        class="w-full p-2 rounded"
       />
 
+      <!-- Eye Icon for Toggling Visibility -->
+      <button
+        type="button"
+        class="absolute bottom-3 right-0 flex items-center pr-3 text-red-500 hover:text-red-700"
+        (click)="togglePasswordVisibility()"
+      >
+        @if (!registerForm.get('password')?.errors) {
+        <i
+          class="fa"
+          [ngClass]="
+            isPasswordVisible
+              ? 'fa-eye text-green-500 hover:text-green-700'
+              : 'fa-eye-slash'
+          "
+          aria-hidden="true"
+        ></i>
+        }
+      </button>
+
+      <!-- Error Message -->
       @if (registerForm.get('password')?.errors &&
       registerForm.get('password')?.touched) {
-      <div class="alert-danger p-0 m-0">
+      <div class="bg-red-100 text-red-700 p-2 rounded relative right-0 w-full">
         @if (registerForm.get('password')?.errors?.['required']) {
-        <p class="p-1 m-0">password is required</p>
+        <p class="p-1 m-0">Password is required</p>
         } @if (registerForm.get('password')?.errors?.['pattern']) {
-        <p class="p-1 m-0">enter valid password</p>
+        <p class="p-1 m-0">Enter a valid password</p>
         }
       </div>
       }
     </div>
 
-    <div class="my-3">
-      <label>repassword: </label>
+    <!-- Reset Password Input Field -->
+    <div class="my-3 relative">
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !registerForm.get('rePassword')?.errors &&
+            (registerForm.get('rePassword')?.touched ||
+              registerForm.get('rePassword')?.dirty),
+          'text-red-500':
+            registerForm.get('rePassword')?.errors &&
+            (registerForm.get('rePassword')?.touched ||
+              registerForm.get('rePassword')?.dirty)
+        }"
+        for="rePassword"
+        class="block mb-2 text-sm font-medium"
+      >
+        Reset Password:
+      </label>
+
       <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !registerForm.get('rePassword')?.errors &&
+            (registerForm.get('rePassword')?.touched ||
+              registerForm.get('rePassword')?.dirty),
+          'border-red-500 focus:border-red-500':
+            registerForm.get('rePassword')?.errors &&
+            (registerForm.get('rePassword')?.touched ||
+              registerForm.get('rePassword')?.dirty)
+        }"
+        id="rePassword"
+        [type]="isRePasswordVisible ? 'text' : 'password'"
+        class="relative w-full p-2 rounded"
         formControlName="rePassword"
-        type="text"
-        class="w-full p-2 rounded"
       />
 
+      <!-- Eye Icon for Toggling Visibility -->
+      <button
+        type="button"
+        class="absolute bottom-3 right-0 flex items-center pr-3 text-red-500 hover:text-red-700"
+        (click)="toggleRePasswordVisibility()"
+      >
+        @if (registerForm.get('rePassword')?.value?.length > 0) {
+        <i
+          class="fa"
+          [ngClass]="
+            isRePasswordVisible
+              ? 'fa-eye text-green-500 hover:text-green-700'
+              : 'fa-eye-slash'
+          "
+          aria-hidden="true"
+        ></i>
+        }
+      </button>
+
+      <!-- Error Message -->
       @if (registerForm.get('rePassword')?.errors &&
       registerForm.get('rePassword')?.touched) {
-      <div class="alert-danger p-0 m-0">
+      <div
+        class="bg-red-100 text-red-700 p-2 mb-8 rounded relative right-0 w-full"
+      >
         @if (registerForm.get('rePassword')?.errors?.['required']) {
-        <p class="p-1 m-0">rePassword is required</p>
+        <p class="p-1 m-0">Reset Password is required</p>
+        } @if (registerForm.get('rePassword')?.errors?.['minlength']) {
+        <p class="p-1 m-0">Reset Password must be at least 8 characters</p>
         } @if (registerForm.get('rePassword')?.errors?.['mismatch']) {
-        <p class="p-1 m-0">password not match</p>
+        <p class="p-1 m-0">Passwords do not match</p>
         }
       </div>
       }
     </div>
 
+    <!-- Phone Field -->
     <div class="my-3">
-      <label>phone: </label>
-      <input formControlName="phone" type="text" class="w-full p-2 rounded" />
+      <label
+        [ngClass]="{
+          'text-green-500':
+            !registerForm.get('phone')?.errors &&
+            (registerForm.get('phone')?.touched ||
+              registerForm.get('phone')?.dirty),
+          'text-red-500':
+            registerForm.get('phone')?.errors &&
+            (registerForm.get('phone')?.touched ||
+              registerForm.get('phone')?.dirty)
+        }"
+        for="phone"
+        class="block mb-2 text-sm font-medium"
+      >
+        Phone:
+      </label>
+
+      <input
+        [ngClass]="{
+          'border-green-500 focus:border-green-500':
+            !registerForm.get('phone')?.errors &&
+            (registerForm.get('phone')?.touched ||
+              registerForm.get('phone')?.dirty),
+          'border-red-500 focus:border-red-500':
+            registerForm.get('phone')?.errors &&
+            (registerForm.get('phone')?.touched ||
+              registerForm.get('phone')?.dirty)
+        }"
+        id="phone"
+        type="tel"
+        class="w-full p-2 rounded"
+        formControlName="phone"
+      />
 
       @if (registerForm.get('phone')?.errors &&
       registerForm.get('phone')?.touched) {
-      <div class="alert-danger p-0 m-0">
+      <div class="bg-red-100 text-red-700 p-2 rounded">
         @if (registerForm.get('phone')?.errors?.['required']) {
-        <p class="p-1 m-0">phone is required</p>
+        <p class="p-1 m-0">Phone is required</p>
         } @if (registerForm.get('phone')?.errors?.['pattern']) {
-        <p class="p-1 m-0">enter valid phone</p>
+        <p class="p-1 m-0">Enter a valid phone number</p>
         }
       </div>
       }
     </div>
 
+    <!-- Submit Button -->
     <button
       [disabled]="registerForm.invalid"
       class="btn bg-main text-white mb-3 block ms-auto cursor-pointer"

@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -7,24 +8,29 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../shared/services/auth/auth.service';
 import { Router, RouterLink } from '@angular/router';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink],
+  imports: [ReactiveFormsModule, RouterLink, NgClass],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
   isLoading: boolean = false;
   errMsg!: string;
+  // Toggle variable to track visibility state
+  isPasswordVisible: boolean = false;
 
-  loginForm: FormGroup = new FormGroup({
-    email: new FormControl(null, [Validators.required, Validators.email]),
-    password: new FormControl(null, [
-      Validators.required,
-      Validators.pattern(/^[A-Z][a-z0-9]{8,}$/),
-    ]),
+  private readonly _FormBuilder = inject(FormBuilder);
+
+  loginForm: FormGroup = this._FormBuilder.group({
+    email: [null, [Validators.required, Validators.email]],
+    password: [
+      null,
+      [Validators.required, Validators.pattern(/^[A-Z][a-z0-9]{8,}$/)],
+    ],
   });
 
   constructor(private _AuthService: AuthService, private _Router: Router) {}
@@ -47,5 +53,10 @@ export class LoginComponent {
         },
       });
     }
+  }
+
+  // Method to toggle the password visibility
+  togglePasswordVisibility(): void {
+    this.isPasswordVisible = !this.isPasswordVisible;
   }
 }
